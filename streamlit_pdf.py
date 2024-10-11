@@ -24,7 +24,7 @@ vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
 if vector_store:
     st.success(f"{os.path.basename(pdf_file_path)} 벡터 스토어를 로드했습니다.")
 else:
-    vector_store = chatbot_gpt.embed_pdf(txt_file_path, vector_store_dir)
+    vector_store = chatbot_gpt.embed_pdf(pdf_file_path, vector_store_dir)
     st.success(f"{os.path.basename(pdf_file_path)} PDF를 임베딩하고 저장했습니다.")
 
 
