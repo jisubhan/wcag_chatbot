@@ -20,7 +20,7 @@ pdf_file_path = "data/wcag.pdf"
 txt_file_path = "data/long.txt"
 
 # 벡터 스토어 디렉토리 경로 생성
-vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
+#vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
 
 # 벡터 스토어가 이미 존재하는지 확인하고, 존재하면 로드
 def load_vector_store(directory):
