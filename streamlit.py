@@ -11,7 +11,7 @@ pdf_file_path = "data/wcag.pdf"
 txt_file_path = "data/long.txt"
 
 # 벡터 스토어 디렉토리 경로 생성
-vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
+vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(txt_file_path))[0])
 
 # 페이지 설정
 st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
@@ -22,10 +22,10 @@ st.title("🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
 if vector_store:
-    st.success(f"{os.path.basename(pdf_file_path)} 벡터 스토어를 로드했습니다.")
+    st.success(f"{os.path.basename(txt_file_path)} 벡터 스토어를 로드했습니다.")
 else:
-    vector_store = chatbot_gpt.embed_text(pdf_file_path, vector_store_dir)
-    st.success(f"{os.path.basename(pdf_file_path)} PDF를 임베딩하고 저장했습니다.")
+    vector_store = chatbot_gpt.embed_text(txt_file_path, vector_store_dir)
+    st.success(f"{os.path.basename(txt_file_path)} PDF를 임베딩하고 저장했습니다.")
 
 
 # 접근성 지침 요약 로드
