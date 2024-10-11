@@ -32,21 +32,11 @@ def generate_code(prompt, code, guidelines):
     generated_code = response.choices[0].message.content.strip()
     return generated_code
 
-# OpenAI API를 사용하여 수정 사항 설명 생성
 def generate_explanation(original_code, modified_code):
     explanation_prompt = f"""
-다음은 사용자가 제공한 원본 코드입니다:
-
-원본 코드:
-{original_code}
-
-그리고 다음은 수정된 코드입니다:
-
-수정된 코드:
-{modified_code}
-
-수정 사항을 간략히 설명해주세요.
-"""
+    다음은 사용자가 제공한 원본 코드입니다.\n원본 코드:{original_code}\n그리고 다음은 수정된 코드입니다.\n수정된 코드:{modified_code}\n
+    수정 사항을 간략히 설명해주세요.
+    """
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": explanation_prompt}],
