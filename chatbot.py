@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# OpenAI API 키 설정
+# OpenAI API 키 설정 123
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # 페이지 설정
