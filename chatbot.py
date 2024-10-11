@@ -16,7 +16,7 @@ st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 �
 st.title("🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 
 # 접근성 지침 요약 로드
-def load_guidelines_summary():
+def load_guidelines_summary(): 
     with open("data/wcag.txt", "r", encoding="utf-8") as file:
         summary = file.read()
     return summary
