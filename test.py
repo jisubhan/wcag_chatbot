@@ -54,6 +54,21 @@ def extract_selectors(html):
 
     return selectors
 
+# 선택자가 구조적으로 매칭되는지 확인하는 함수
+def is_selector_match(selector_list, selectors):
+    for sel in selector_list:
+        sel_parts = [part.strip() for part in sel.split('>')]  # '>' 기준으로 선택자를 분리
+        # 각 선택자 부분이 HTML에서 추출된 선택자들과 매칭되는지 확인
+        match = True
+        for part in sel_parts:
+            if part not in selectors:  # 각 부분이 추출된 선택자들 중에 있는지 확인
+                match = False
+                break
+        if match:
+            return True  # 하나라도 매칭되면 참을 반환
+    return False
+
+# CSS에서 선택자와 매칭되는 규칙을 추출하는 함수
 def filter_css_by_selectors(parsed_css, selectors):
     filtered_rules = []
     for rule in parsed_css:
@@ -61,17 +76,12 @@ def filter_css_by_selectors(parsed_css, selectors):
             # 선택자 부분
             selector_text = ''.join([token.serialize() for token in rule.prelude]).strip()
             selector_list = [s.strip() for s in selector_text.split(',')]
-            print("selector_list : ", selector_list)
-            # 각 선택자에 대해 매칭 여부를 정확히 확인 (전체 일치 여부)
-            for selector in selectors:
-                print(selector)
-                # 정확하게 선택자가 일치하는지 확인
-                if selector in selector_list:
-                    print("selector_list : ", selector_list)
-                    # 스타일 규칙 부분
-                    declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
-                    filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
-                    break  # 매칭된 경우 추가 확인 필요 없음
+            
+            # 각 선택자에 대해 매칭 여부를 구조적으로 확인
+            if is_selector_match(selector_list, selectors):
+                # 스타일 규칙 부분
+                declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
+                filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
     return '\n'.join(filtered_rules)
 
 # 프롬프트 생성 및 API 호출
