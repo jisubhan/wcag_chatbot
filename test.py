@@ -31,7 +31,7 @@ if uploaded_file is not None:
 # 이전에 업로드된 CSS 파일을 유지함
 if st.session_state['css_content']:
     st.write("현재 유지 중인 CSS 파일 내용:")
-    #st.code(st.session_state['css_content'], language='css')
+    st.code(st.session_state['css_content'], language='css')
 
 # HTML 코드 입력
 html_code = st.text_area("HTML 코드를 입력하세요:")
@@ -66,6 +66,7 @@ def filter_css_by_selectors(parsed_css, selectors):
             for selector in selectors:
                 # 정확하게 선택자가 일치하는지 확인
                 if selector in selector_list:
+                    print("selector_list : ", selector_list)
                     # 스타일 규칙 부분
                     declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
                     filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
