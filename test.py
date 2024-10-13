@@ -2,9 +2,12 @@ import re
 import streamlit as st
 import tinycss2
 import openai
+from dotenv import load_dotenv
 
-# OpenAI API 키 설정
-openai.api_key = 'YOUR_OPENAI_API_KEY'
+load_dotenv()
+
+# OpenAI API 키 설정 123
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # CSS 파일과 파싱된 내용을 저장할 변수 (세션 상태에 저장하여 쓰레드 유지)
 if 'parsed_css' not in st.session_state:
@@ -27,7 +30,7 @@ if uploaded_file is not None:
 # 이전에 업로드된 CSS 파일을 유지함
 if st.session_state['css_content']:
     st.write("현재 유지 중인 CSS 파일 내용:")
-    st.code(st.session_state['css_content'], language='css')
+    #st.code(st.session_state['css_content'], language='css')
 
 # HTML 코드 입력
 html_code = st.text_area("HTML 코드를 입력하세요:")
