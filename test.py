@@ -89,12 +89,13 @@ if st.button("웹 접근성 수정 요청 보내기"):
                 f"CSS:\n{filtered_css}"
             )
             
-            # OpenAI API 호출
-            response = openai.Completion.create(
-                engine="text-davinci-004",
-                prompt=prompt,
-                max_tokens=500
+            response = openai.ChatCompletion.create(
+                model="gpt-4",  # "text-davinci-004" 대신 "gpt-4" 사용
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=2048,
+                temperature=0.7
             )
+
 
             # API 응답 출력
             st.write("웹 접근성 수정 결과:")
