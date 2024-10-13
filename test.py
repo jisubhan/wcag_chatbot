@@ -141,6 +141,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
 
             # HTML과 CSS를 렌더링
             if extracted_html:
+                print(extracted_html)
                 # CSS가 없는 경우 필터링된 CSS 사용
                 if not extracted_css:
                     st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
