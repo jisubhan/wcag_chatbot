@@ -54,23 +54,22 @@ def extract_selectors(html):
 
     return selectors
 
-# CSS에서 선택자와 매칭되는 규칙을 추출하는 함수
 def filter_css_by_selectors(parsed_css, selectors):
     filtered_rules = []
     for rule in parsed_css:
         if rule.type == 'qualified-rule':
+            # 선택자 부분
             selector_text = ''.join([token.serialize() for token in rule.prelude]).strip()
             selector_list = [s.strip() for s in selector_text.split(',')]
             
-            # 각 선택자에 대해 매칭 여부를 확인
+            # 각 선택자에 대해 매칭 여부를 정확히 확인 (전체 일치 여부)
             for selector in selectors:
-                # 정확히 선택자 포함 여부를 확인
-                for sel in selector_list:
-                    # 선택자가 정확하게 매칭되거나 포함될 경우 필터링
-                    if selector in sel:
-                        declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
-                        filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
-                        break  # 이미 해당 선택자가 매칭되었으므로 추가 검사는 필요 없음
+                # 정확하게 선택자가 일치하는지 확인
+                if selector in selector_list:
+                    # 스타일 규칙 부분
+                    declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
+                    filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
+                    break  # 매칭된 경우 추가 확인 필요 없음
     return '\n'.join(filtered_rules)
 
 # 프롬프트 생성 및 API 호출
