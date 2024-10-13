@@ -118,7 +118,8 @@ if st.button("웹 접근성 수정 요청 보내기"):
 
             # API 응답 출력
             st.write("웹 접근성 수정 결과:")
-            st.write(response.choices[0].text.strip())
+            st.write(response.choices[0].message['content'].strip())
+
         else:
             st.warning("HTML 코드에서 매칭되는 CSS 규칙이 없습니다.")
     else:
