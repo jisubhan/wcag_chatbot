@@ -105,7 +105,9 @@ if st.button("웹 접근성 수정 요청 보내기"):
                 f"HTML 코드를 우선적으로 수정하여 웹 접근성 문제를 해결해 주세요. "
                 f"단, CSS를 수정하지 않고는 문제가 해결되지 않을 경우에만 CSS를 수정해 주세요.\n\n"
                 f"HTML:\n{html_code}\n\n"
-                f"CSS:\n{filtered_css}"
+                f"CSS:\n{filtered_css}\n\n"
+                f"CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n"
+                f"순서는 html, css, 설명순이며 수정한 코드를 제외하고는 <, >를 사용하지 말아주세요"
             )
             
             response = openai.ChatCompletion.create(
@@ -124,3 +126,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
             st.warning("HTML 코드에서 매칭되는 CSS 규칙이 없습니다.")
     else:
         st.error("HTML 코드와 CSS 파일이 필요합니다.")
+
+    st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
+    st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
+
