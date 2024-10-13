@@ -108,6 +108,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
                 f"CSS:\n{filtered_css}\n\n"
                 f"CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n"
                 f"순서는 html, css, 설명순이며 수정한 코드를 제외하고는 <, >를 사용하지 말아주세요"
+                f"가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 코드인터프리터로 보여줘"
             )
             
             response = openai.ChatCompletion.create(
