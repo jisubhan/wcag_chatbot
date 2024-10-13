@@ -135,6 +135,15 @@ if st.button("웹 접근성 수정 요청 보내기"):
             response_content = response.choices[0].message['content'].strip()
             extracted_html, extracted_css = extract_html_css_from_response(response_content)
 
+            # HTML과 CSS를 렌더링
+            if extracted_html:
+                # CSS가 없는 경우 필터링된 CSS 사용
+                if not extracted_css:
+                    st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
+                else:
+                    # HTML과 CSS가 모두 있을 경우 함께 렌더링
+                    st.components.v1.html(f"<style>{extracted_css}</style>\n{extracted_html}", height=500)
+
             # API 응답 출력
             st.write("웹 접근성 수정 결과:")
             st.write(response_content)
@@ -144,11 +153,3 @@ if st.button("웹 접근성 수정 요청 보내기"):
     else:
         st.error("HTML 코드와 CSS 파일이 필요합니다.")
 
-# HTML과 CSS를 렌더링
-if extracted_html:
-    # CSS가 없는 경우 필터링된 CSS 사용
-    if not extracted_css:
-        st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
-    else:
-        # HTML과 CSS가 모두 있을 경우 함께 렌더링
-        st.components.v1.html(f"<style>{extracted_css}</style>\n{extracted_html}", height=500)
