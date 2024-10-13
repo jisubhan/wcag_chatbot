@@ -64,10 +64,13 @@ def filter_css_by_selectors(parsed_css, selectors):
             
             # 각 선택자에 대해 매칭 여부를 확인
             for selector in selectors:
-                if any(sel == selector for sel in selector_list):
-                    declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
-                    filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
-                    break  # 이미 해당 선택자가 매칭되었으므로 추가 검사는 필요 없음
+                # 정확히 선택자 포함 여부를 확인
+                for sel in selector_list:
+                    # 선택자가 정확하게 매칭되거나 포함될 경우 필터링
+                    if selector in sel:
+                        declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
+                        filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
+                        break  # 이미 해당 선택자가 매칭되었으므로 추가 검사는 필요 없음
     return '\n'.join(filtered_rules)
 
 # 프롬프트 생성 및 API 호출
@@ -79,7 +82,8 @@ if st.button("웹 접근성 수정 요청 보내기"):
 
         # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
         filtered_css = filter_css_by_selectors(st.session_state['parsed_css'], selectors)
-        
+        print("추출된 CSS 규칙:\n", filtered_css)
+
         if filtered_css:
             st.write("필터링된 CSS 규칙:")
             st.code(filtered_css, language='css')
