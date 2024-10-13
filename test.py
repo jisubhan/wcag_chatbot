@@ -61,9 +61,10 @@ def filter_css_by_selectors(parsed_css, selectors):
             # 선택자 부분
             selector_text = ''.join([token.serialize() for token in rule.prelude]).strip()
             selector_list = [s.strip() for s in selector_text.split(',')]
-            
+            print("selector_list : ", selector_list)
             # 각 선택자에 대해 매칭 여부를 정확히 확인 (전체 일치 여부)
             for selector in selectors:
+                print(selector)
                 # 정확하게 선택자가 일치하는지 확인
                 if selector in selector_list:
                     print("selector_list : ", selector_list)
