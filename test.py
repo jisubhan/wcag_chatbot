@@ -3,6 +3,7 @@ import streamlit as st
 import tinycss2
 import openai
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
