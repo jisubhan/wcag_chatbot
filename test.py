@@ -31,7 +31,7 @@ if uploaded_file is not None:
 # 이전에 업로드된 CSS 파일을 유지함
 if st.session_state['css_content']:
     st.write("현재 유지 중인 CSS 파일 내용:")
-    st.code(st.session_state['css_content'], language='css')
+    #st.code(st.session_state['css_content'], language='css')
 
 # HTML 코드 입력
 html_code = st.text_area("HTML 코드를 입력하세요:")
@@ -84,6 +84,19 @@ def filter_css_by_selectors(parsed_css, selectors):
                 filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
     return '\n'.join(filtered_rules)
 
+# AI 응답에서 HTML과 CSS 코드를 추출하는 함수
+def extract_html_css_from_response(response_content):
+    # HTML 부분 추출
+    html_match = re.search(r"HTML:\n(.*?)(?=\n\nCSS:)", response_content, re.DOTALL)
+    html_code = html_match.group(1).strip() if html_match else None
+
+    # CSS 부분 추출
+    css_match = re.search(r"CSS:\n(.*?)(?=\n\n설명:)", response_content, re.DOTALL)
+    css_code = css_match.group(1).strip() if css_match else None
+
+    return html_code, css_code
+
+
 # 프롬프트 생성 및 API 호출
 if st.button("웹 접근성 수정 요청 보내기"):
     if html_code and st.session_state['parsed_css']:
@@ -108,7 +121,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
                 f"CSS:\n{filtered_css}\n\n"
                 f"CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n"
                 f"순서는 html, css, 설명순이며 수정한 코드를 제외하고는 <, >를 사용하지 말아주세요"
-                f"가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 코드인터프리터로 보여줘"
+                f"가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 html, css(수정시) 하나의 코드인터프리터로 보여줘"
             )
             
             response = openai.ChatCompletion.create(
@@ -118,16 +131,24 @@ if st.button("웹 접근성 수정 요청 보내기"):
                 temperature=0.7
             )
 
+            # AI 응답에서 HTML과 CSS만 추출
+            response_content = response.choices[0].message['content'].strip()
+            extracted_html, extracted_css = extract_html_css_from_response(response_content)
 
             # API 응답 출력
             st.write("웹 접근성 수정 결과:")
-            st.write(response.choices[0].message['content'].strip())
+            st.write(response_content)
 
         else:
             st.warning("HTML 코드에서 매칭되는 CSS 규칙이 없습니다.")
     else:
         st.error("HTML 코드와 CSS 파일이 필요합니다.")
 
-    st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
-    st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
-
+# HTML과 CSS를 렌더링
+if extracted_html:
+    # CSS가 없는 경우 필터링된 CSS 사용
+    if not extracted_css:
+        st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
+    else:
+        # HTML과 CSS가 모두 있을 경우 함께 렌더링
+        st.components.v1.html(f"<style>{extracted_css}</style>\n{extracted_html}", height=500)
