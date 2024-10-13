@@ -75,6 +75,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
     if html_code and st.session_state['parsed_css']:
         # HTML 코드에서 선택자 추출
         selectors = extract_selectors(html_code)
+        print("추출된 선택자:", selectors)
 
         # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
         filtered_css = filter_css_by_selectors(st.session_state['parsed_css'], selectors)
