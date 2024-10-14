@@ -114,6 +114,7 @@ html코드를 수정해야하며 어쩔 수 없는 경우에만 css코드를 수
 {code}\n
 사용자 제공 HTML 코드:\n
 {filtered_css}\n
+html코드는 <html>태그로 감싸서 출력해주세요\n
 CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n
  설명, 다른 문자없이 오직 순서는 html, css 순으로 
  가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 수정된 코드만 제공해주세요. 
@@ -197,11 +198,11 @@ def filter_css_by_selectors(parsed_css, selectors):
 # AI 응답에서 HTML과 CSS 코드를 추출하는 함수
 def extract_html_css_from_response(response_content):
     # HTML 부분 추출
-    html_match = re.search(r"HTML:\n(.*?)(?=\n\nCSS:)", response_content, re.DOTALL)
+    html_match = re.search(r"<html>\n(.*?)(?=</html>)", response_content, re.DOTALL | re.IGNORECASE)
     html_code = html_match.group(1).strip() if html_match else None
 
     # CSS 부분 추출
-    css_match = re.search(r"CSS:\n(.*?)(?=\n\n설명:)", response_content, re.DOTALL)
+    css_match = re.search(r"<style>\n(.*?)(?=</style>)", response_content, re.DOTALL | re.IGNORECASE)
     css_code = css_match.group(1).strip() if css_match else None
 
     return html_code, css_code

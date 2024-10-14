@@ -64,7 +64,7 @@ st.write("🇰🇷 한국형 웹 콘텐츠 접근성 지침을 바탕으로 코�
 # 예시 질문 아코디언
 with st.expander("예시 질문 보기"):
     st.markdown("""
-    - 웹 접근성 문제를 해결해줘
+    - 웹접근성지침에 맞게 코드를 수정해줘
     - 이미지에 대체 텍스트를 추가해줘
     - 폼 요소에 레이블을 추가해줘
     """)
@@ -93,8 +93,12 @@ st.session_state.user_code = user_code
 
 # 코드 수정 요청 입력
 st.markdown("### 💡 코드 수정 요청")
-code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹 접근성 문제를 해결해줘")
-
+code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹접근성지침에 맞게 코드를 수정해줘")
+###########테스트용
+if code_prompt:
+    print(code_prompt)
+else:
+    code_prompt = "웹접근성지침에 맞게 코드를 수정해줘"
 
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
@@ -127,8 +131,9 @@ if st.button("✨ 코드 생성/수정"):
                 # AI를 통한 코드 생성 (chatbot_gpt.py에서 함수 호출)
                 modified_code = chatbot_gpt.generate_code(code_prompt, user_code, filtered_css, st.session_state.guidelines_summary)
                 st.success("코드 생성/수정이 완료되었습니다.")
+                print("modified_code:","\n",modified_code)
                 extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
-
+                print(extracted_html,"\n\n\n\n\n\n\n\n",extracted_css)
                 # 생성된 코드를 세션 상태에 저장
                 st.session_state.modified_code = modified_code
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
@@ -144,19 +149,19 @@ if "modified_code" in st.session_state:
     st.markdown("### 📝 수정된 코드")   
     st.code(st.session_state.modified_code, language='html')
 
+    # 수정 사항 설명 표시
+    if "explanation" in st.session_state and st.session_state.explanation:
+        st.markdown("### 💬 수정 사항 설명")
+        st.info(st.session_state.explanation)
     st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
-    st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
+    #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
 # HTML과 CSS를 렌더링
     if extracted_html:
         print(extracted_html)
         # CSS가 없는 경우 필터링된 CSS 사용
         if not extracted_css:
-            st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
+            st.components.v1.html(f"<style>{filtered_css}</style>\n<html>{extracted_html}</html>", height=300, scrolling=True)
         else:
             # HTML과 CSS가 모두 있을 경우 함께 렌더링
-            st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=500)
+            st.components.v1.html(f"<style>{extracted_css}</style>\n<html>{extracted_html}</html>", height=300, scrolling=True)
 
-    # 수정 사항 설명 표시
-    if "explanation" in st.session_state and st.session_state.explanation:
-        st.markdown("### 💬 수정 사항 설명")
-        st.info(st.session_state.explanation)
