@@ -157,7 +157,7 @@ if "modified_code" in st.session_state:
     #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
 # HTML과 CSS를 렌더링
     if extracted_html:
-        print(extracted_html)
+        print(extracted_css+"\n"+extracted_html)
         # CSS가 없는 경우 필터링된 CSS 사용
         if not extracted_css:
             st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
