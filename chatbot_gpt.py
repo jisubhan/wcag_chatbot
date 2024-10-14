@@ -115,7 +115,8 @@ html코드를 수정해야하며 어쩔 수 없는 경우에만 css코드를 수
 사용자 제공 HTML 코드:\n
 {filtered_css}\n
 CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n
-순서는 html, css 순이며 가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 수정된 코드만 제공해주세요. 
+ 설명, 다른 문자없이 오직 순서는 html, css 순으로 
+ 가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 수정된 코드만 제공해주세요. 
 """
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
