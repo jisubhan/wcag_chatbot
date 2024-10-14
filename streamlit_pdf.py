@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_ace import st_ace  # 코드 편집기를 위한 모듈
-
+import tinycss2 #css 파싱
 import chatbot_gpt
 import os
 
@@ -16,8 +16,28 @@ vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(p
 # 페이지 설정
 st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 
+# CSS 파일과 파싱된 내용을 저장할 변수 (세션 상태에 저장하여 쓰레드 유지)
+if 'parsed_css' not in st.session_state:
+    st.session_state['parsed_css'] = None
+if 'css_content' not in st.session_state:
+    st.session_state['css_content'] = None
+# CSS 파일 업로드
+uploaded_file = st.file_uploader("CSS 파일을 업로드하세요", type=["css"])
+
+# CSS 파일이 업로드되었을 때 파싱 및 상태 유지
+if uploaded_file is not None:
+    css_content = uploaded_file.read().decode('utf-8')
+    st.session_state['css_content'] = css_content
+    st.session_state['parsed_css'] = tinycss2.parse_stylesheet(css_content)
+    st.success("CSS 파일이 성공적으로 업로드 및 파싱되었습니다.")
+
+# 이전에 업로드된 CSS 파일을 유지함
+if st.session_state['css_content']:
+    st.write("현재 유지 중인 CSS 파일 내용:")
+    #st.code(st.session_state['css_content'], language='css')
+
 # 페이지 제목
-st.title("🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
+st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
 
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
@@ -79,22 +99,40 @@ code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입�
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
     if code_prompt and user_code:
+        if st.session_state['parsed_css']:
+
+            # HTML 코드에서 선택자 추출
+            selectors = chatbot_gpt.extract_selectors(user_code)
+            print("추출된 선택자:", selectors)
+
+            # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
+            filtered_css = chatbot_gpt.filter_css_by_selectors(st.session_state['parsed_css'], selectors)
+            print("추출된 CSS 규칙:\n", filtered_css)
+
+            if filtered_css:
+                st.write("필터링된 CSS 규칙:")
+                st.code(filtered_css, language='css')
+            else:
+                filtered_css = ""
+
         with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
             try:
                 #쿼리 변수 추가
-                query = user_code+"\n"+code_prompt
+                query = user_code+"\n"+filtered_css+"\n"+code_prompt
                 if query:
                     # 가장 관련성이 높은 텍스트 검색
                     docs = vector_store.similarity_search(query)
                     relevant_text = "\n".join([doc.page_content for doc in docs])
 
                 # AI를 통한 코드 생성 (chatbot_gpt.py에서 함수 호출)
-                modified_code = chatbot_gpt.generate_code(code_prompt, user_code, st.session_state.guidelines_summary)
+                modified_code = chatbot_gpt.generate_code(code_prompt, user_code, filtered_css, st.session_state.guidelines_summary)
                 st.success("코드 생성/수정이 완료되었습니다.")
+                extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
+
                 # 생성된 코드를 세션 상태에 저장
                 st.session_state.modified_code = modified_code
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
-                explanation = chatbot_gpt.generate_explanation(user_code, modified_code, relevant_text)
+                explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
                 st.session_state.explanation = explanation
             except Exception as e:
@@ -108,6 +146,15 @@ if "modified_code" in st.session_state:
 
     st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
     st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
+# HTML과 CSS를 렌더링
+    if extracted_html:
+        print(extracted_html)
+        # CSS가 없는 경우 필터링된 CSS 사용
+        if not extracted_css:
+            st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500)
+        else:
+            # HTML과 CSS가 모두 있을 경우 함께 렌더링
+            st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=500)
 
     # 수정 사항 설명 표시
     if "explanation" in st.session_state and st.session_state.explanation:
