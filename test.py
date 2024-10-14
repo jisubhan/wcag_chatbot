@@ -125,7 +125,7 @@ if st.button("웹 접근성 수정 요청 보내기"):
             )
             
             response = openai.ChatCompletion.create(
-                model="gpt-4omini",  # "text-davinci-004" 대신 "gpt-4" 사용
+                model="gpt-4o-mini",  # "text-davinci-004" 대신 "gpt-4" 사용
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=2048,
                 temperature=0.7
