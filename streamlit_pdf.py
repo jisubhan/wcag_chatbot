@@ -119,29 +119,29 @@ if st.button("✨ 코드 생성/수정"):
             else:
                 filtered_css = ""
 
-        #with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
-        try:
-            #쿼리 변수 추가
-            query = user_code+"\n"+filtered_css+"\n"+code_prompt
-            if query:
-                # 가장 관련성이 높은 텍스트 검색
-                docs = vector_store.similarity_search(query)
-                relevant_text = "\n".join([doc.page_content for doc in docs])
+        with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
+            try:
+                #쿼리 변수 추가
+                query = user_code+"\n"+filtered_css+"\n"+code_prompt
+                if query:
+                    # 가장 관련성이 높은 텍스트 검색
+                    docs = vector_store.similarity_search(query)
+                    relevant_text = "\n".join([doc.page_content for doc in docs])
 
-            # AI를 통한 코드 생성 (chatbot_gpt.py에서 함수 호출)
-            modified_code = chatbot_gpt.generate_code(code_prompt, user_code, filtered_css, st.session_state.guidelines_summary)
-            st.success("코드 생성/수정이 완료되었습니다.")
-            print("modified_code:","\n",modified_code)
-            extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
-            print(extracted_html,"\n\n\n\n\n\n\n\n",extracted_css)
-            # 생성된 코드를 세션 상태에 저장
-            st.session_state.modified_code = modified_code
-            # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
-            explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
-            
-            st.session_state.explanation = explanation
-        except Exception as e:
-            st.error(f"오류가 발생했습니다: {e}")
+                # AI를 통한 코드 생성 (chatbot_gpt.py에서 함수 호출)
+                modified_code = chatbot_gpt.generate_code(code_prompt, user_code, filtered_css, st.session_state.guidelines_summary)
+                st.success("코드 생성/수정이 완료되었습니다.")
+                print("modified_code:","\n",modified_code)
+                extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
+                print(extracted_html,"\n\n\n\n\n\n\n\n",extracted_css)
+                # 생성된 코드를 세션 상태에 저장
+                st.session_state.modified_code = modified_code
+                # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
+                explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
+                
+                st.session_state.explanation = explanation
+            except Exception as e:
+                st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("코드와 수정 요청을 모두 입력해주세요.")
 # 수정된 코드 미리보기

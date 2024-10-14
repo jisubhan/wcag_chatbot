@@ -125,22 +125,10 @@ CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n
         max_tokens=2048,
         temperature=0,
         n=1,
-        stop=None
+        stop=None,
     )
-    # 전체 응답을 저장할 변수
-    full_generated_code = ""
-
-    # 스트리밍된 응답을 실시간으로 처리
-    for chunk in response:
-        if 'choices' in chunk:
-            # 스트리밍된 부분 응답에서 텍스트 추출
-            content = chunk['choices'][0].get('delta', {}).get('content', '')
-            if content:
-                print(content, end='', flush=True)  # 실시간으로 출력
-                full_generated_code += content  # 전체 응답에 누적
-
-    # 최종 생성된 코드를 반환
-    return full_generated_code.strip()
+    generated_code = response.choices[0].message.content.strip()
+    return generated_code
     
 
 
@@ -156,7 +144,7 @@ def generate_explanation(original_code, filtered_css, modified_code, relevant_te
         max_tokens=2048,
         temperature=0,
         n=1,
-        stop=None,
+        stop=None
     )
     explanation = response.choices[0].message.content.strip()
     return explanation
