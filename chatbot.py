@@ -4,7 +4,7 @@ from streamlit_ace import st_ace  # 코드 편집기를 위한 모듈
 import openai  # AI 코드 생성을 위한 모듈
 from dotenv import load_dotenv
 from generate_code import generate_code  # generate_code 함수 임포트
-from generate_explanation import generate_explanation  # generate_explanation 함수 임포트
+from generation_explanation import generate_explanation  # generate_explanation 함수 임포트
 load_dotenv()
 
 # OpenAI API 키 설정 123
