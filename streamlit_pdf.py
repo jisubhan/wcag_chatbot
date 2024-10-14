@@ -160,8 +160,8 @@ if "modified_code" in st.session_state:
         print(extracted_html)
         # CSS가 없는 경우 필터링된 CSS 사용
         if not extracted_css:
-            st.components.v1.html(f"<style>{filtered_css}</style>\n<html>{extracted_html}</html>", height=300, scrolling=True)
+            st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
         else:
             # HTML과 CSS가 모두 있을 경우 함께 렌더링
-            st.components.v1.html(f"<style>{extracted_css}</style>\n<html>{extracted_html}</html>", height=300, scrolling=True)
+            st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=300, scrolling=True)
 
