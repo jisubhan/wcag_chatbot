@@ -136,7 +136,7 @@ def generate_explanation(original_code, filtered_css, modified_code, relevant_te
     explanation_prompt = f"""
     다음은 사용자가 제공한 원본 코드와 CSS입니다.\n원본 코드:{original_code}\n CSS"{filtered_css}\n
     그리고 다음은 수정된 코드입니다.\n수정된 코드:{modified_code}\n
-    "웹접근성지침"으로 {relevant_text}를 정리해서 출력하고 이후 수정 사항을 간략히 설명해주세요.
+    "웹접근성지침" 항목으로 {relevant_text}를 이해하기 좋게 정리해서 출력하고 이후 수정 사항을 간략히 설명해주세요.
     """
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
