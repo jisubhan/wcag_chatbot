@@ -14,27 +14,18 @@ txt_file_path = "data/long.txt"
 vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
 
 # 페이지 설정
-st.set_page_config(layout="wide", page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
+st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 
 # CSS 파일과 파싱된 내용을 저장할 변수 (세션 상태에 저장하여 쓰레드 유지)
 if 'parsed_css' not in st.session_state:
     st.session_state['parsed_css'] = None
 if 'css_content' not in st.session_state:
     st.session_state['css_content'] = None
-# CSS 파일 업로드
-uploaded_file = st.file_uploader("CSS 파일을 업로드하세요", type=["css"])
-
-# CSS 파일이 업로드되었을 때 파싱 및 상태 유지
-if uploaded_file is not None:
-    css_content = uploaded_file.read().decode('utf-8')
-    st.session_state['css_content'] = css_content
-    st.session_state['parsed_css'] = tinycss2.parse_stylesheet(css_content)
-    st.success("CSS 파일이 성공적으로 업로드 및 파싱되었습니다.")
 
 # 이전에 업로드된 CSS 파일을 유지함
-if st.session_state['css_content']:
-    st.write("현재 유지 중인 CSS 파일 내용:")
-    #st.code(st.session_state['css_content'], language='css')
+#if st.session_state['css_content']:
+#    st.write("현재 유지 중인 CSS 파일 내용:")
+#    #st.code(st.session_state['css_content'], language='css')
 
 # 페이지 제목
 st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
@@ -42,13 +33,15 @@ st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
 if vector_store:
-    st.sidebar.markdown(f"{os.path.basename(pdf_file_path)}")
-    st.sidebar.markdown("<p style='font-size:20px; color:green;'>벡터 스토어를 로드했습니다.<br><br></p>", unsafe_allow_html=True)
+    print(pdf_file_path)
+    #st.sidebar.markdown(f"{os.path.basename(pdf_file_path)}")
+    #st.sidebar.markdown("<p style='font-size:20px; color:green;'>벡터 스토어를 로드했습니다.<br><br></p>", unsafe_allow_html=True)
 
 else:
     vector_store = chatbot_gpt.embed_pdf(pdf_file_path, vector_store_dir)
-    st.sidebar.markdown(f"{os.path.basename(pdf_file_path)} ")
-    st.sidebar.markdown("<p style='font-size:20px; color:green;'>PDF를 임베딩하고 저장했습니다.<br><br></p>", unsafe_allow_html=True)
+    print(pdf_file_path)
+    #st.sidebar.markdown(f"{os.path.basename(pdf_file_path)} ")
+    #st.sidebar.markdown("<p style='font-size:20px; color:green;'>PDF를 임베딩하고 저장했습니다.<br><br></p>", unsafe_allow_html=True)
 
 
 
@@ -63,13 +56,19 @@ if "guidelines_summary" not in st.session_state:
         guidelines_summary = load_guidelines_summary()
         st.session_state.guidelines_summary = guidelines_summary
 
-st.write("🇰🇷 한국형 웹 콘텐츠 접근성 지침을 바탕으로 코드를 수정해보세요 🤖")
+#st.write("🇰🇷 한국형 웹 콘텐츠 접근성 지침을 바탕으로 코드를 수정해보세요 🤖")
 
 
-option = st.sidebar.selectbox(
+option = st.selectbox(
     '예시 질문 보기',
     ('웹접근성지침에 맞게 코드를 수정해줘', '이미지에 대체 텍스트를 추가해줘', '폼 요소에 레이블을 추가해줘', '직접입력')
 )
+
+# 코드 수정 요청 입력
+if option == '직접입력':
+    code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹접근성지침에 맞게 코드를 수정해줘")
+else:
+    code_prompt = option
 
 # 코드 편집 및 자동 수정 섹션
 st.subheader("💻 코드 편집 및 자동 수정")
@@ -81,7 +80,8 @@ if "user_code" not in st.session_state:
 user_code = st_ace(
     value=st.session_state.user_code,
     language='html',
-    theme='monokai',
+    #theme='monokai',
+    theme='dawn',
     keybinding='vscode',
     font_size=14,
     tab_size=4,
@@ -90,15 +90,19 @@ user_code = st_ace(
     auto_update=True,
 )
 
+# CSS 파일 업로드
+uploaded_file = st.file_uploader("CSS 파일을 업로드하세요", type=["css"])
+
+# CSS 파일이 업로드되었을 때 파싱 및 상태 유지
+if uploaded_file is not None:
+    css_content = uploaded_file.read().decode('utf-8')
+    st.session_state['css_content'] = css_content
+    st.session_state['parsed_css'] = tinycss2.parse_stylesheet(css_content)
+    st.success("CSS 파일이 성공적으로 업로드 및 파싱되었습니다.")
+
+
 # 코드 저장
 st.session_state.user_code = user_code
-
-# 코드 수정 요청 입력
-if option == '직접입력':
-    st.markdown("### 💡 코드 수정 요청")
-    code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹접근성지침에 맞게 코드를 수정해줘")
-else:
-    code_prompt = option
 
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
