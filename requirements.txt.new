@@ -24,7 +24,7 @@ emoji==2.12.1
 et-xmlfile==1.1.0
 exceptiongroup==1.2.0
 executing==2.0.1
-faiss-cpu==1.8.0.post1
+faiss-gpu==1.7.2
 filelock==3.15.4
 filetype==1.2.0
 fonttools==4.53.1
@@ -117,8 +117,10 @@ urllib3==2.2.2
 wcwidth==0.2.12
 wrapt==1.16.0
 yarl==1.9.4
-streamlit
+langchain==0.0.235
+faiss-cpu==1.8.0.post1
 streamlit-ace
+streamlit
 scikit-learn
 datasets
-openai
+openai==0.28.0
