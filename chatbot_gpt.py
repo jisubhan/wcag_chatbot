@@ -29,7 +29,6 @@ def load_vector_store(directory):
     faiss_index_path = os.path.join(directory,"index.faiss")
     print("faiss_index_path="+faiss_index_path)
     if os.path.exists(faiss_index_path):
-        st.write(f"벡터 스토어가 이미 존재합니다: {faiss_index_path}")
         # FAISS 벡터 스토어 로드
         vector_store = FAISS.load_local(directory, OpenAIEmbeddings(), allow_dangerous_deserialization=True)
         return vector_store

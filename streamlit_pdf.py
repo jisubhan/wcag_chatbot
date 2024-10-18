@@ -14,7 +14,7 @@ txt_file_path = "data/long.txt"
 vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
 
 # 페이지 설정
-st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
+st.set_page_config(layout="wide", page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 
 # CSS 파일과 파싱된 내용을 저장할 변수 (세션 상태에 저장하여 쓰레드 유지)
 if 'parsed_css' not in st.session_state:
@@ -42,10 +42,14 @@ st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
 if vector_store:
-    st.success(f"{os.path.basename(pdf_file_path)} 벡터 스토어를 로드했습니다.")
+    st.sidebar.markdown(f"{os.path.basename(pdf_file_path)}")
+    st.sidebar.markdown("<p style='font-size:20px; color:green;'>벡터 스토어를 로드했습니다.<br><br></p>", unsafe_allow_html=True)
+
 else:
     vector_store = chatbot_gpt.embed_pdf(pdf_file_path, vector_store_dir)
-    st.success(f"{os.path.basename(pdf_file_path)} PDF를 임베딩하고 저장했습니다.")
+    st.sidebar.markdown(f"{os.path.basename(pdf_file_path)} ")
+    st.sidebar.markdown("<p style='font-size:20px; color:green;'>PDF를 임베딩하고 저장했습니다.<br><br></p>", unsafe_allow_html=True)
+
 
 
 # 접근성 지침 요약 로드
@@ -61,13 +65,11 @@ if "guidelines_summary" not in st.session_state:
 
 st.write("🇰🇷 한국형 웹 콘텐츠 접근성 지침을 바탕으로 코드를 수정해보세요 🤖")
 
-# 예시 질문 아코디언
-with st.expander("예시 질문 보기"):
-    st.markdown("""
-    - 웹접근성지침에 맞게 코드를 수정해줘
-    - 이미지에 대체 텍스트를 추가해줘
-    - 폼 요소에 레이블을 추가해줘
-    """)
+
+option = st.sidebar.selectbox(
+    '예시 질문 보기',
+    ('웹접근성지침에 맞게 코드를 수정해줘', '이미지에 대체 텍스트를 추가해줘', '폼 요소에 레이블을 추가해줘', '직접입력')
+)
 
 # 코드 편집 및 자동 수정 섹션
 st.subheader("💻 코드 편집 및 자동 수정")
@@ -92,13 +94,11 @@ user_code = st_ace(
 st.session_state.user_code = user_code
 
 # 코드 수정 요청 입력
-st.markdown("### 💡 코드 수정 요청")
-code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹접근성지침에 맞게 코드를 수정해줘")
-###########테스트용
-if code_prompt:
-    print(code_prompt)
+if option == '직접입력':
+    st.markdown("### 💡 코드 수정 요청")
+    code_prompt = st.text_input("코드 수정이나 생성에 대한 요청을 입력하세요.", placeholder="예: 웹접근성지침에 맞게 코드를 수정해줘")
 else:
-    code_prompt = "웹접근성지침에 맞게 코드를 수정해줘"
+    code_prompt = option
 
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
@@ -122,7 +122,7 @@ if st.button("✨ 코드 생성/수정"):
         with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
             try:
                 #쿼리 변수 추가
-                query = user_code+"\n"+filtered_css+"\n"+code_prompt
+                query = user_code+"\n"+filtered_css
                 if query:
                     # 가장 관련성이 높은 텍스트 검색
                     docs = vector_store.similarity_search(query)
