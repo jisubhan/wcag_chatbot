@@ -29,6 +29,7 @@ if 'css_content' not in st.session_state:
 
 # 페이지 제목
 st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
+st.image("pdf_test.png")
 
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
@@ -71,7 +72,7 @@ else:
     code_prompt = option
 
 # 코드 편집 및 자동 수정 섹션
-st.subheader("💻 코드 편집 및 자동 수정")
+st.markdown("💻 코드 편집 및 자동 수정")
 
 # 코드 편집기 설정
 if "user_code" not in st.session_state:
@@ -103,12 +104,12 @@ if uploaded_file is not None:
 
 # 코드 저장
 st.session_state.user_code = user_code
+filtered_css = ""
 
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
     if code_prompt and user_code:
         if st.session_state['parsed_css']:
-
             # HTML 코드에서 선택자 추출
             selectors = chatbot_gpt.extract_selectors(user_code)
             print("추출된 선택자:", selectors)
@@ -120,8 +121,6 @@ if st.button("✨ 코드 생성/수정"):
             if filtered_css:
                 st.write("필터링된 CSS 규칙:")
                 st.code(filtered_css, language='css')
-            else:
-                filtered_css = ""
 
         with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
             try:
