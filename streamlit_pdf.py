@@ -204,16 +204,19 @@ if "modified_code" in st.session_state:
     if "explanation" in st.session_state and st.session_state.explanation:
         st.markdown("### 💬 수정 사항 설명")
         st.info(st.session_state.explanation)
-    st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
-    #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
-    
-# HTML과 CSS를 렌더링
-    if extracted_html:
-        print(extracted_css+"\n"+extracted_html)
-        # CSS가 없는 경우 필터링된 CSS 사용
-        if not extracted_css:
-            st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
-        else:
-            # HTML과 CSS가 모두 있을 경우 함께 렌더링
-            st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=300, scrolling=True)
+
+        st.markdown("### 🌐 수정전 코드 웹에서 확인하기")
+        st.components.v1.html(f"<style>{filtered_css}</style>\n{user_code}", height=300, scrolling=True)
+
+        st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
+            #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
+        # HTML과 CSS를 렌더링
+        if extracted_html:
+            print(extracted_css+"\n"+extracted_html)
+            # CSS가 없는 경우 필터링된 CSS 사용
+            if not extracted_css:
+                st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
+            else:
+                # HTML과 CSS가 모두 있을 경우 함께 렌더링
+                st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=300, scrolling=True)
 

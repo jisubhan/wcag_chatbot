@@ -105,8 +105,8 @@ def embed_text(text_file_path, directory):
 def generate_code(prompt, code, filtered_css, guidelines):
     full_prompt = f"""
 당신은 웹 접근성 전문가입니다. 아래의 웹 콘텐츠 접근성 지침 요약을 참고하여, 
-사용자가 제공한 HTML코드와 css코드를 바탕으로 '{prompt}' 요청에 따라 수정하세요. 단 우선적으로 
-html코드를 수정해야하며 어쩔 수 없는 경우에만 css코드를 수정하세요\n
+사용자가 제공한 HTML코드와 css코드를 바탕으로 '{prompt}' 요청에 따라 태그속성 및 css만 수정하세요(태그내용 변경불가). 추가적으로 css를 적용해 텍스트와 배경간 명도대비 확인 필요하며 우선적으로 
+html코드를 수정하고 최후의 경우에만 css코드를 수정하세요\n
 웹 콘텐츠 접근성 지침 요약:\n
 {guidelines}\n
 사용자 제공 HTML 코드:\n
@@ -133,9 +133,11 @@ CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n
 
 def generate_explanation(original_code, filtered_css, modified_code, relevant_text):
     explanation_prompt = f"""
-    다음은 사용자가 제공한 원본 코드와 CSS입니다.\n원본 코드:{original_code}\n CSS"{filtered_css}\n
+    다음은 사용자가 제공한 원본 코드와 CSS입니다.\n원본 코드:{original_code}\n 원본 CSS"{filtered_css}\n
     그리고 다음은 수정된 코드입니다.\n수정된 코드:{modified_code}\n
-    "웹접근성지침" 항목으로 {relevant_text}를 이해하기 좋게 정리해서 출력하고 이후 수정 사항을 간략히 설명해주세요.
+    원본 코드, 원본 CSS와 수정된 코드를 비교하고, 
+    {modified_code}와 관련된 {relevant_text}를 "웹접근성지침" 항목으로 이해하기 좋게 정리해서 출력하고 이후 "수정 사항"항목으로 
+    변경사항을 출력하고 {relevant_text}를 기반으로 변경사유를 간략히 설명해주세요.
     """
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
