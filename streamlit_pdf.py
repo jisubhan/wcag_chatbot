@@ -3,6 +3,7 @@ from streamlit_ace import st_ace  # 코드 편집기를 위한 모듈
 import tinycss2 #css 파싱
 import chatbot_gpt
 import os
+import difflib  # 코드 비교를 위한 모듈
 
 # 'guide.pdf' 파일을 data 디렉토리에서 로드
 pdf_file_path = "data/wcag.pdf"
@@ -61,7 +62,7 @@ if "guidelines_summary" not in st.session_state:
 
 
 option = st.selectbox(
-    '예시 질문 보기',
+    '예시 질문을 입력하세요',
     ('웹접근성지침에 맞게 코드를 수정해줘', '이미지에 대체 텍스트를 추가해줘', '폼 요소에 레이블을 추가해줘', '직접입력')
 )
 
@@ -147,10 +148,58 @@ if st.button("✨ 코드 생성/수정"):
                 st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("코드와 수정 요청을 모두 입력해주세요.")
+
 # 수정된 코드 미리보기
+# 수정된 코드와 차이점 표시
 if "modified_code" in st.session_state:
     st.markdown("### 📝 수정된 코드")   
     st.code(st.session_state.modified_code, language='html')
+
+    st.markdown("### 🖍 수정된 코드와 차이점")
+    
+    original_code_lines = st.session_state.user_code.splitlines()
+    modified_code_lines = st.session_state.modified_code.splitlines()
+    
+    # HTML Diff 생성
+    diff = difflib.HtmlDiff(wrapcolumn=80).make_table(
+        original_code_lines,
+        modified_code_lines,
+        fromdesc='원본 코드',
+        todesc='수정된 코드',
+        context=True,
+        numlines=5
+    )
+    
+    # 스타일 수정
+    # 스타일 수정 (다크 모드 대응)
+    diff_style = """
+    <style>
+    table.diff {width: 100%; font-family: Courier; border-collapse: collapse;}
+    .diff_header {background-color: #e0e0e0; color: #000;}
+    .diff_next {background-color: #c0c0c0; color: #000;}
+    .diff_add {background-color: #a6f3a6; color: #000;}
+    .diff_chg {background-color: #ffff77; color: #000;}
+    .diff_sub {background-color: #f7c0c0; color: #000;}
+    td, th {padding: 5px;}
+    /* 다크 모드 스타일 */
+    @media (prefers-color-scheme: dark) {
+        table.diff {background-color: #2e2e2e; color: #fff;}
+        .diff_header {background-color: #444; color: #fff;}
+        .diff_next {background-color: #666; color: #fff;}
+        .diff_add {background-color: #335533; color: #fff;}
+        .diff_chg {background-color: #888833; color: #fff;}
+        .diff_sub {background-color: #663333; color: #fff;}
+    }
+    </style>
+    """
+    
+    # diff_html에 스타일 추가
+    diff_html = diff_style + diff
+    
+    st.markdown("아래 표는 원본 코드와 수정된 코드의 차이점을 보여줍니다. 추가된 부분은 초록색으로, 삭제된 부분은 빨간색으로 표시됩니다.")
+    
+    # Diff 결과 표시
+    st.components.v1.html(diff_html, height=600, scrolling=True)
 
     # 수정 사항 설명 표시
     if "explanation" in st.session_state and st.session_state.explanation:
@@ -158,6 +207,7 @@ if "modified_code" in st.session_state:
         st.info(st.session_state.explanation)
     st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
     #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
+    
 # HTML과 CSS를 렌더링
     if extracted_html:
         print(extracted_css+"\n"+extracted_html)
