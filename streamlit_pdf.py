@@ -30,7 +30,6 @@ if 'css_content' not in st.session_state:
 
 # 페이지 제목
 st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
-st.image("pdf_test.png")
 
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
