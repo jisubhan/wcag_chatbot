@@ -123,7 +123,11 @@ if st.button("✨ 코드 생성/수정"):
                 extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
                 # 생성된 코드를 세션 상태에 저장
                 st.session_state.extracted_html = extracted_html
-                st.session_state.extracted_css = extracted_css
+                if extracted_css:
+                    st.session_state.extracted_css = extracted_css
+                else:
+                    extracted_css = ""
+                    st.session_state.extracted_css = extracted_css
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
                 explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
