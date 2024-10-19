@@ -23,27 +23,15 @@ if 'parsed_css' not in st.session_state:
 if 'css_content' not in st.session_state:
     st.session_state['css_content'] = None
 
-# 이전에 업로드된 CSS 파일을 유지함
-#if st.session_state['css_content']:
-#    st.write("현재 유지 중인 CSS 파일 내용:")
-#    #st.code(st.session_state['css_content'], language='css')
-
 # 페이지 제목
 st.title("🧑🏻‍💻 웹접근성 수정 자동화 챗봇")
 
 # 먼저 기존 벡터 스토어가 있는지 확인하고, 없으면 새로 임베딩 처리
 vector_store = chatbot_gpt.load_vector_store(vector_store_dir)
 if vector_store:
-    print(pdf_file_path)
-    #st.sidebar.markdown(f"{os.path.basename(pdf_file_path)}")
-    #st.sidebar.markdown("<p style='font-size:20px; color:green;'>벡터 스토어를 로드했습니다.<br><br></p>", unsafe_allow_html=True)
-
+    print("yes")
 else:
     vector_store = chatbot_gpt.embed_pdf(pdf_file_path, vector_store_dir)
-    print(pdf_file_path)
-    #st.sidebar.markdown(f"{os.path.basename(pdf_file_path)} ")
-    #st.sidebar.markdown("<p style='font-size:20px; color:green;'>PDF를 임베딩하고 저장했습니다.<br><br></p>", unsafe_allow_html=True)
-
 
 
 # 접근성 지침 요약 로드
@@ -56,9 +44,6 @@ if "guidelines_summary" not in st.session_state:
     with st.spinner("웹 접근성 지침 요약을 로드하고 있습니다..."):
         guidelines_summary = load_guidelines_summary()
         st.session_state.guidelines_summary = guidelines_summary
-
-#st.write("🇰🇷 한국형 웹 콘텐츠 접근성 지침을 바탕으로 코드를 수정해보세요 🤖")
-
 
 option = st.selectbox(
     '예시 질문을 입력하세요',
@@ -103,8 +88,9 @@ if uploaded_file is not None:
 
 
 # 코드 저장
-st.session_state.user_code = user_code
 filtered_css = ""
+st.session_state.user_code = user_code
+st.session_state.filtered_css = filtered_css
 
 # 코드 생성/수정 버튼
 if st.button("✨ 코드 생성/수정"):
@@ -112,11 +98,9 @@ if st.button("✨ 코드 생성/수정"):
         if st.session_state['parsed_css']:
             # HTML 코드에서 선택자 추출
             selectors = chatbot_gpt.extract_selectors(user_code)
-            print("추출된 선택자:", selectors)
 
             # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
             filtered_css = chatbot_gpt.filter_css_by_selectors(st.session_state['parsed_css'], selectors)
-            print("추출된 CSS 규칙:\n", filtered_css)
             st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"</style>"
 
 
@@ -136,13 +120,10 @@ if st.button("✨ 코드 생성/수정"):
                 # AI를 통한 코드 생성 (chatbot_gpt.py에서 함수 호출)
                 modified_code = chatbot_gpt.generate_code(code_prompt, user_code, filtered_css, st.session_state.guidelines_summary)
                 st.success("코드 생성/수정이 완료되었습니다.")
-                print("modified_code:","\n",modified_code)
                 extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
-                print(extracted_html,"\n\n\n\n\n\n\n\n",extracted_css)
                 # 생성된 코드를 세션 상태에 저장
                 st.session_state.extracted_html = extracted_html
                 st.session_state.extracted_css = extracted_css
-                #st.session_state.modified_code = modified_code
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
                 explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
@@ -161,8 +142,6 @@ if "extracted_html" in st.session_state:
     st.markdown("### 🖍 수정된 코드와 차이점")
     
     original_code_lines = st.session_state.user_code.splitlines() + st.session_state.filtered_css.splitlines()
-#    original_code_lines = "\n".join(st.session_state.user_code.splitlines()) + "\n" + "\n".join(st.session_state.filtered_css.splitlines())
-#    modified_code_lines = st.session_state.modified_code.splitlines()
     modified_code_lines = st.session_state.extracted_html.splitlines() + st.session_state.extracted_css.splitlines()
 
     # HTML Diff 생성
@@ -215,10 +194,8 @@ if "extracted_html" in st.session_state:
         st.components.v1.html(f"<style>{filtered_css}</style>\n{user_code}", height=300, scrolling=True)
 
         st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
-            #st.components.v1.html(st.session_state.modified_code, height=500, scrolling=True)
         # HTML과 CSS를 렌더링
         if extracted_html:
-            print(extracted_css+"\n"+extracted_html)
             # CSS가 없는 경우 필터링된 CSS 사용
             if not extracted_css:
                 st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
