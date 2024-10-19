@@ -15,7 +15,7 @@ txt_file_path = "data/long.txt"
 vector_store_dir = os.path.join(os.getcwd(), os.path.splitext(os.path.basename(pdf_file_path))[0])
 
 # 페이지 설정
-st.set_page_config(page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
+st.set_page_config(layout="wide", page_title="🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇")
 
 # CSS 파일과 파싱된 내용을 저장할 변수 (세션 상태에 저장하여 쓰레드 유지)
 if 'parsed_css' not in st.session_state:
@@ -117,6 +117,8 @@ if st.button("✨ 코드 생성/수정"):
             # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
             filtered_css = chatbot_gpt.filter_css_by_selectors(st.session_state['parsed_css'], selectors)
             print("추출된 CSS 규칙:\n", filtered_css)
+            st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"</style>"
+
 
             if filtered_css:
                 st.write("필터링된 CSS 규칙:")
@@ -138,7 +140,9 @@ if st.button("✨ 코드 생성/수정"):
                 extracted_html, extracted_css = chatbot_gpt.extract_html_css_from_response(modified_code)
                 print(extracted_html,"\n\n\n\n\n\n\n\n",extracted_css)
                 # 생성된 코드를 세션 상태에 저장
-                st.session_state.modified_code = modified_code
+                st.session_state.extracted_html = extracted_html
+                st.session_state.extracted_css = extracted_css
+                #st.session_state.modified_code = modified_code
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
                 explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
@@ -150,15 +154,17 @@ if st.button("✨ 코드 생성/수정"):
 
 # 수정된 코드 미리보기
 # 수정된 코드와 차이점 표시
-if "modified_code" in st.session_state:
+if "extracted_html" in st.session_state:
     st.markdown("### 📝 수정된 코드")   
-    st.code(st.session_state.modified_code, language='html')
+    st.code(st.session_state.extracted_html, language='html')
 
     st.markdown("### 🖍 수정된 코드와 차이점")
     
-    original_code_lines = st.session_state.user_code.splitlines()
-    modified_code_lines = st.session_state.modified_code.splitlines()
-    
+    original_code_lines = st.session_state.user_code.splitlines() + st.session_state.filtered_css.splitlines()
+#    original_code_lines = "\n".join(st.session_state.user_code.splitlines()) + "\n" + "\n".join(st.session_state.filtered_css.splitlines())
+#    modified_code_lines = st.session_state.modified_code.splitlines()
+    modified_code_lines = st.session_state.extracted_html.splitlines() + st.session_state.extracted_css.splitlines()
+
     # HTML Diff 생성
     diff = difflib.HtmlDiff(wrapcolumn=80).make_table(
         original_code_lines,
