@@ -127,7 +127,7 @@ if st.button("✨ 코드 생성/수정"):
                     st.session_state.extracted_css = extracted_css
                 else:
                     extracted_css = ""
-                    st.session_state.extracted_css = extracted_css
+                    st.session_state.extracted_css = "<style>"+"\n"+filtered_css+"</style>"
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
                 explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
@@ -195,15 +195,15 @@ if "extracted_html" in st.session_state:
         st.info(st.session_state.explanation)
 
         st.markdown("### 🌐 수정전 코드 웹에서 확인하기")
-        st.components.v1.html(f"<style>{filtered_css}</style>\n{user_code}", height=300, scrolling=True)
+        st.components.v1.html(f"<style>{filtered_css}</style>\n{user_code}", height=500, scrolling=True)
 
         st.markdown("### 🌐 수정된 코드 웹에서 확인하기")
         # HTML과 CSS를 렌더링
         if extracted_html:
             # CSS가 없는 경우 필터링된 CSS 사용
             if not extracted_css:
-                st.components.v1.html(f"{filtered_css}\n{extracted_html}", height=300, scrolling=True)
+                st.components.v1.html(f"<style>{filtered_css}</style>\n{extracted_html}", height=500, scrolling=True)
             else:
                 # HTML과 CSS가 모두 있을 경우 함께 렌더링
-                st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=300, scrolling=True)
+                st.components.v1.html(f"{extracted_css}\n{extracted_html}", height=500, scrolling=True)
 
