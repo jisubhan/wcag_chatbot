@@ -1,6 +1,6 @@
 # 🧑🏻‍💻 웹 콘텐츠 수정 자동화 챗봇
 
-## 프로젝트 소개
+## 🚀 프로젝트 소개
 
 - 이 웹 서비스는 한국형 웹 콘텐츠 접근성 지침을 준수하여 개발된 자동화된 코드 수정 서비스입니다.
 - 사용자는 HTML 및 CSS 코드를 입력하고, 웹 접근성 지침에 따라 코드를 수정하거나 생성할 수 있습니다.
@@ -8,13 +8,13 @@
 
 <br>
 
-## 팀원 구성
+## ✨팀원 구성
 
 <div align="center">
 
 | **손현열** | **김용운** | **김신호** | **한지섭** |
 | :------: |  :------: | :------: | :------: |
-| [<img src="https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e" height=150 width=150> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://github.com/user-attachments/assets/b1e9b2b0-d620-4cea-b03d-62296e6e81e4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://github.com/user-attachments/assets/9c2fc040-9b18-4cfa-bb77-c5a73ce3b68a" height=150 width=150> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://github.com/user-attachments/assets/7fb33fee-7166-4067-b9d7-5804b6b4d451" height=150 width=150> <br/> @jisubhan](https://github.com/jisubhan) |
+| [<img src="https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e" height=150 width=150> <br/> @sonhyunheol](https://github.com/jisubhan) | [<img src="https://github.com/user-attachments/assets/b1e9b2b0-d620-4cea-b03d-62296e6e81e4" height=150 width=150> <br/> @kimyongwoon](https://github.com/jisubhan) | [<img src="https://github.com/user-attachments/assets/9c2fc040-9b18-4cfa-bb77-c5a73ce3b68a" height=150 width=150> <br/> @kimsh](https://github.com/jisubhan) | [<img src="https://github.com/user-attachments/assets/7fb33fee-7166-4067-b9d7-5804b6b4d451" height=150 width=150> <br/> @jisubhan](https://github.com/jisubhan) |
 
 </div>
 
@@ -22,7 +22,7 @@
 
 <br>
 
-## 1. 주요 기능
+## 주요 기능
 - 코드 편집기 제공: ACE Editor를 통해 HTML 코드를 직접 입력 및 수정할 수 있습니다.
 - 자동 코드 수정: 웹 접근성 지침에 따라 코드를 자동으로 수정합니다.
 - 수정 사항 비교: 원본 코드와 수정된 코드의 차이점을 시각적으로 비교하여 보여줍니다.
@@ -32,7 +32,7 @@
 - 예시 질문 제공: 웹 접근성 개선에 도움이 되는 예시 질문을 제공합니다.
 <br>
 
-##  프로젝트 구조
+## 프로젝트 구조
 
 ```
 WCAG_CHATBOT/
