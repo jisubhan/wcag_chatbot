@@ -2,10 +2,6 @@
 
 ![readme_mockup2](/example_chat.png)
 
-- 배포 URL : https://ohmycode-readme.netlify.app
-- Test ID : readme@test.com
-- Test PW : 123123
-
 <br>
 
 ## 프로젝트 소개
@@ -28,23 +24,72 @@
 
 <br>
 
-## 1. 개발 환경
-
-- Front : HTML, React, styled-components, Recoil
-- Back-end : 제공된 API 활용
-- 버전 및 이슈관리 : Github, Github Issues, Github Project
-- 협업 툴 : Discord, Notion, Github Wiki
-- 서비스 배포 환경 : Netlify
-- 디자인 : [Figma](https://www.figma.com/file/fAisC2pEKzxTOzet9CfqML/README(oh-my-code)?node-id=39%3A1814)
-- [커밋 컨벤션](https://github.com/likelion-project-README/README/wiki/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98)
-- [코드 컨벤션](https://github.com/likelion-project-README/README/wiki/%EC%BD%94%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98)
-- [스프라이트](https://github.com/likelion-project-README/README/wiki/%EC%8A%A4%ED%94%84%EB%9D%BC%EC%9D%B4%ED%8A%B8)
+## 1. 주요 기능
+- 코드 편집기 제공: ACE Editor를 통해 HTML 코드를 직접 입력 및 수정할 수 있습니다.
+- 자동 코드 수정: 웹 접근성 지침에 따라 코드를 자동으로 수정합니다.
+- 수정 사항 비교: 원본 코드와 수정된 코드의 차이점을 시각적으로 비교하여 보여줍니다.
+- 미리보기 기능: 수정된 코드를 웹 환경에서 실시간으로 미리볼 수 있습니다.
+- 다크 모드 지원: 다크 모드에서도 가독성이 유지되도록 디자인되었습니다.
+- 수정 사항 설명: AI가 제공하는 수정 사항 설명을 통해 변경된 내용을 쉽게 이해할 수 있습니다.
+- 예시 질문 제공: 웹 접근성 개선에 도움이 되는 예시 질문을 제공합니다.
 <br>
 
-## 2. 채택한 개발 기술과 브랜치 전략
+## 2. 설치 방법
+- 필수 조건
+    -Python 3.7 이상
+    -OpenAI API 키
+    -Git (선택 사항)
 
-### React, styled-component
+### 설치 단계
+리포지토리 클론
 
+bash
+코드 복사
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+가상 환경 생성 (선택 사항)
+
+bash
+코드 복사
+python -m venv venv
+source venv/bin/activate  # Windows의 경우 'venv\Scripts\activate'
+필요한 패키지 설치
+
+bash
+코드 복사
+pip install -r requirements.txt
+환경 변수 설정
+
+프로젝트 루트 디렉터리에 .env 파일을 생성하고, OpenAI API 키를 추가합니다.
+
+env
+코드 복사
+OPENAI_API_KEY=your_openai_api_key
+웹 접근성 지침 요약 파일 준비
+
+data/wcag.txt 파일이 있는지 확인하세요. 없을 경우, 한국형 웹 콘텐츠 접근성 지침의 주요 내용을 요약하여 해당 위치에 저장합니다.
+
+사용 방법
+애플리케이션 실행
+
+bash
+코드 복사
+streamlit run chatbot.py
+웹 브라우저에서 접속
+
+터미널에 표시된 로컬 URL을 웹 브라우저에 입력하여 애플리케이션에 접속합니다.
+
+코드 입력 및 수정
+
+코드 편집기에 수정하고자 하는 HTML 코드를 입력합니다.
+아래의 '코드 수정 요청' 입력란에 원하는 수정 요청을 입력합니다.
+예: "웹 접근성 문제를 해결해줘"
+'✨ 코드 생성/수정' 버튼을 클릭합니다.
+수정된 코드 확인 및 미리보기
+
+수정된 코드와 차이점 섹션에서 원본 코드와 수정된 코드의 차이점을 시각적으로 비교합니다.
+수정된 코드 웹에서 확인하기 섹션에서 수정된 코드를 실제 웹 페이지로 미리볼 수 있습니다.
+수정 사항 설명 섹션에서 AI가 제공한 수정 내용을 확인합니다.
 - React
     - 컴포넌트화를 통해 추후 유지보수와 재사용성을 고려했습니다.
     - 유저 배너, 상단과 하단 배너 등 중복되어 사용되는 부분이 많아 컴포넌트화를 통해 리소스 절약이 가능했습니다.
