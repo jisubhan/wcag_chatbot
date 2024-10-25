@@ -22,16 +22,16 @@
 
 ## 🚩 사용 라이브러리 목록
 ### 💡 라이브러리 이름 목적 및 기능
-- OpenAI	OpenAI API를 이용한 자연어 처리 및 생성 작업
-- Streamlit	웹 애플리케이션 개발을 위한 프레임워크
-- python-dotenv	.env 파일을 통해 환경 변수 로드 및 관리
-- LangChain - OpenAIEmbeddings	OpenAI의 임베딩 기능을 활용한 텍스트 벡터화
-- LangChain - FAISS	FAISS를 이용한 벡터 스토어 관리 및 검색
-- LangChain - RecursiveCharacterTextSplitter	텍스트를 재귀적으로 분할하여 처리
-- PyPDF2	PDF 파일 읽기 및 처리
-- streamlit_ace	코드 편집기 기능 제공을 위한 Streamlit 모듈
-- tinycss2	CSS 파일 파싱 및 분석
-- difflib	텍스트 및 코드의 비교 및 차이점 분석
+- OpenAI	: OpenAI API를 이용한 자연어 처리 및 생성 작업
+- Streamlit	: 웹 애플리케이션 개발을 위한 프레임워크
+- python-dotenv	: .env 파일을 통해 환경 변수 로드 및 관리
+- LangChain_OpenAIEmbeddings : OpenAI의 임베딩 기능을 활용한 텍스트 벡터화
+- LangChain_FAISS : FAISS를 이용한 벡터 스토어 관리 및 검색
+- LangChain_RecursiveCharacterTextSplitter : 텍스트를 재귀적으로 분할하여 처리
+- PyPDF2 : PDF 파일 읽기 및 처리
+- streamlit_ace	: 코드 편집기 기능 제공을 위한 Streamlit 모듈
+- tinycss2	: CSS 파일 파싱 및 분석
+- difflib	: 텍스트 및 코드의 비교 및 차이점 분석
 
 
 ## 📌 주요 기능
