@@ -19,7 +19,29 @@
 </div>
 
 <br>
+## 👀 프로젝트 구조
 
+```
+WCAG_CHATBOT/
+├── chatbot_gpt.py               # api 연동 모듈
+├── streamlit_pdf.py             # 메인 실행 모듈
+├── generate_code.py             # 코드 생성을 위한 모듈
+├── generate_explanation.py      # 수정 사항 설명 생성을 위한 모듈
+├── requirements.txt             # 필요한 패키지 목록
+├── .env                         # api KEY
+├── data/
+│   └── wcag.txt                 # 웹 접근성 지침 요약본
+│   └── wcag.pdf                 # 웹 접근성 지침 
+├── wcag/
+│   └── index.faiss              # faiss
+│   └── index.pkl                
+├── assets/
+│   └── banner.png               # README에 사용된 이미지
+└── README.md                    # 프로젝트 설명 파일
+```
+
+    
+<br>
 ## 🚩 사용 라이브러리 목록
 ### 💡 라이브러리 이름 목적 및 기능
 - OpenAI	: OpenAI API를 이용한 자연어 처리 및 생성 작업
@@ -44,29 +66,7 @@
 - 예시 질문 제공: 웹 접근성 개선에 도움이 되는 예시 질문을 제공합니다.
 <br>
 
-## 👀 프로젝트 구조
 
-```
-WCAG_CHATBOT/
-├── chatbot_gpt.py               # api 연동 모듈
-├── streamlit_pdf.py             # 메인 실행 모듈
-├── generate_code.py             # 코드 생성을 위한 모듈
-├── generate_explanation.py      # 수정 사항 설명 생성을 위한 모듈
-├── requirements.txt             # 필요한 패키지 목록
-├── .env                         # api KEY
-├── data/
-│   └── wcag.txt                 # 웹 접근성 지침 요약본
-│   └── wcag.pdf                 # 웹 접근성 지침 
-├── wcag/
-│   └── index.faiss              # faiss
-│   └── index.pkl                
-├── assets/
-│   └── banner.png               # README에 사용된 이미지
-└── README.md                    # 프로젝트 설명 파일
-```
-
-    
-<br>
 
 ## ⏱️ 개발 기간 및 작업 관리
 
