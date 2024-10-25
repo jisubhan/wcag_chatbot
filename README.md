@@ -15,6 +15,14 @@
 | :------: |  :------: | :------: | :------: |
 | [<img src="https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e" height=150 width=150>  | [<img src="![shy](https://github.com/user-attachments/assets/e85e98d3-124a-4d5a-b43a-fd52effb8879)" height=150 width=150> | [<img src="![shy](https://github.com/user-attachments/assets/e85e98d3-124a-4d5a-b43a-fd52effb8879)" height=150 width=150> | [<img src="![shy](https://github.com/user-attachments/assets/e85e98d3-124a-4d5a-b43a-fd52effb8879)" height=150 width=150>  |
 
+<div align="center">
+
+| **손현열** | **김신호** | **김용운** | **한지섭** |
+| :------: |  :------: | :------: | :------: |
+| [<img src="[https://avatars.githubusercontent.com/u/106502312?v=4](https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e)" height=150 width=150> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://avatars.githubusercontent.com/u/112460466?v=4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://avatars.githubusercontent.com/u/112460506?v=4" height=150 width=150> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @journey-ji](https://github.com/journey-ji) |
+
+</div>
+
 </div>
 
 <br>
