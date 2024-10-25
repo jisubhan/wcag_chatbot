@@ -14,7 +14,7 @@
 
 | **손현열** | **김용운** | **김신호** | **한지섭** |
 | :------: |  :------: | :------: | :------: |
-| [<img src="https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e" height=150 width=150> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://github.com/user-attachments/assets/b1e9b2b0-d620-4cea-b03d-62296e6e81e4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://github.com/user-attachments/assets/9c2fc040-9b18-4cfa-bb77-c5a73ce3b68a" height=150 width=150> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://github.com/user-attachments/assets/7fb33fee-7166-4067-b9d7-5804b6b4d451" height=150 width=150> <br/> @journey-ji](https://github.com/journey-ji) |
+| [<img src="https://github.com/user-attachments/assets/9db34279-78a5-4a60-b0e5-b5930b81e01e" height=150 width=150> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://github.com/user-attachments/assets/b1e9b2b0-d620-4cea-b03d-62296e6e81e4" height=150 width=150> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://github.com/user-attachments/assets/9c2fc040-9b18-4cfa-bb77-c5a73ce3b68a" height=150 width=150> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://github.com/user-attachments/assets/7fb33fee-7166-4067-b9d7-5804b6b4d451" height=150 width=150> <br/> @jisubhan](https://github.com/jisubhan) |
 
 </div>
 
