@@ -101,12 +101,11 @@ if st.button("✨ 코드 생성/수정"):
 
             # 파싱된 CSS에서 해당 선택자와 관련된 규칙만 필터링
             filtered_css = chatbot_gpt.filter_css_by_selectors(st.session_state['parsed_css'], selectors)
-            st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"</style>"
-
 
             if filtered_css:
                 st.write("필터링된 CSS 규칙:")
                 st.code(filtered_css, language='css')
+                st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"</style>"
 
         with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
             try:
@@ -127,7 +126,7 @@ if st.button("✨ 코드 생성/수정"):
                     st.session_state.extracted_css = extracted_css
                 else:
                     extracted_css = ""
-                    st.session_state.extracted_css = "<style>"+"\n"+filtered_css+"</style>"
+                    st.session_state.extracted_css = "<style>"+"\n"+filtered_css+"\n"+"</style>"
                 # 수정 사항 설명 요청 (chatbot_gpt.py에서 함수 호출)
                 explanation = chatbot_gpt.generate_explanation(user_code, filtered_css, modified_code, relevant_text)
                 
@@ -149,7 +148,7 @@ if "extracted_html" in st.session_state:
     modified_code_lines = st.session_state.extracted_html.splitlines() + st.session_state.extracted_css.splitlines()
 
     # HTML Diff 생성
-    diff = difflib.HtmlDiff(wrapcolumn=80).make_table(
+    diff = difflib.HtmlDiff(wrapcolumn=60).make_table(
         original_code_lines,
         modified_code_lines,
         fromdesc='원본 코드',

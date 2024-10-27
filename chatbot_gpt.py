@@ -105,8 +105,8 @@ def embed_text(text_file_path, directory):
 def generate_code(prompt, code, filtered_css, guidelines):
     full_prompt = f"""
 당신은 웹 접근성 전문가입니다. 아래의 웹 콘텐츠 접근성 지침 요약을 참고하여, 
-사용자가 제공한 HTML코드와 css코드를 바탕으로 '{prompt}' 요청에 따라 태그속성 및 css만 수정하세요(태그내용 변경불가). 추가적으로 css를 적용해 텍스트와 배경간 명도대비 확인 필요하며 우선적으로 
-html코드를 수정하고 최후의 경우에만 css코드를 수정하세요\n
+사용자가 제공한 HTML코드와 css코드를 바탕으로 '{prompt}' 요청에 따라 태그속성 및 css만 수정하세요(태그내용 변경불가).\n
+추가적으로 1. css를 적용해 텍스트와 배경간 명도대비 확인 2.html수정으로 웹접근성을 구현하는걸 우선으로 하되 최후의 경우에만 css코드를 수정하세요\n
 웹 콘텐츠 접근성 지침 요약:\n
 {guidelines}\n
 사용자 제공 HTML 코드:\n
@@ -114,8 +114,8 @@ html코드를 수정하고 최후의 경우에만 css코드를 수정하세요\n
 사용자 제공 HTML 코드:\n
 {filtered_css}\n
 html코드는 <html>태그로 감싸서 출력해주세요\n
-CSS를 만일 수정하려면 <style>태그로 감싸서 출력해주세요\n
- 설명, 다른 문자없이 오직 순서는 html, css 순으로 
+css코드를 <style>태그로 감싸서 출력해주세요\n
+ 설명, 다른 문자없이 순서는 html, css 순으로 
  가독성이 좋게 코드의 줄바꿈 및 들여쓰기 해서 수정된 코드만 제공해주세요. 
 """
     response = openai.ChatCompletion.create(
@@ -195,7 +195,14 @@ def filter_css_by_selectors(parsed_css, selectors):
             if is_selector_match(selector_list, selectors):
                 # 스타일 규칙 부분
                 declaration_text = ''.join([token.serialize() for token in rule.content]).strip()
-                filtered_rules.append(f"{selector_text} {{ {declaration_text} }}")
+                # `{` 뒤에 줄바꿈, 뒤에 줄바꿈, `}` 앞에 줄바꿈 추가
+                formatted_rule = f"{selector_text} {{ {declaration_text} }}"
+                formatted_rule = re.sub(r'{', '{\n', formatted_rule)       # `{` 뒤에 줄바꿈
+                formatted_rule = re.sub(r'}', '\n}', formatted_rule)       # `}` 앞에 줄바꿈
+                
+                filtered_rules.append(formatted_rule)
+
+    print(filtered_rules)
     return '\n'.join(filtered_rules)
 
 # AI 응답에서 HTML과 CSS 코드를 추출하는 함수
