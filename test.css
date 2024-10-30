@@ -1,0 +1,51 @@
+/* styles.css */
+table {
+    border-collapse: collapse; /* 테두리가 겹치지 않도록 설정 */
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid black; /* 각 셀에 테두리를 추가 */
+    padding: 8px;
+    text-align: left;
+  }
+  .hanabank_logo {
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+  }
+  .hanabank_button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    background: url("https://biz.kebhana.com/cont/resource/img/com/bg_bank.png") no-repeat center;
+    background-size: 100% 100%;
+    width: 200px;
+    height: 50px; 
+  }
+  .hanabank_button.hanabank_logo {
+    background-color: #005FA3;
+    cursor: pointer;
+  }
+  div{
+    background-color: #FFCC00;
+    color: #FFCC00;
+  }
+  input{
+    background-color: #1eaf36;
+    color: #00ff2a;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  body {
+    font-family: Arial, sans-serif;
+  }
