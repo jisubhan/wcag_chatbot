@@ -105,7 +105,7 @@ if st.button("✨ 코드 생성/수정"):
             if filtered_css:
                 st.write("필터링된 CSS 규칙:")
                 st.code(filtered_css, language='css')
-                st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"</style>"
+                st.session_state.filtered_css = "<style>"+"\n"+filtered_css+"\n"+"</style>"
 
         with st.spinner("AI가 코드를 생성/수정하고 있습니다..."):
             try:

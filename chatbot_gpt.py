@@ -133,11 +133,12 @@ css코드를 <style>태그로 감싸서 출력해주세요\n
 
 def generate_explanation(original_code, filtered_css, modified_code, relevant_text):
     explanation_prompt = f"""
-    다음은 사용자가 제공한 원본 코드와 CSS입니다.\n원본 코드:{original_code}\n 원본 CSS"{filtered_css}\n
-    그리고 다음은 수정된 코드입니다.\n수정된 코드:{modified_code}\n
-    수정된 코드를 기준으로 원본코드와 차이점을 추출하고 
-    {original_code}와 관련된 {relevant_text}를 "웹접근성지침" 항목으로 이해하기 좋게 정리해서 출력하고 이후 "수정사항"항목으로 
-    수정된 코드를 기준으로 원본코드와 차이를 출력하고 수정전후 차이가 발생하는 이유를 "수정사유"로 {relevant_text}를 참조하여 설명해주세요
+    다음은 사용자가 제공한 원본 코드와 CSS입니다.\n원본 코드:\n{original_code}\n 원본 CSS:\n{filtered_css}\n
+    그리고 다음은 수정된 코드입니다.\n수정된 코드:\n{modified_code}\n
+    수정된 코드를 기준으로 원본코드와 차이점을 추출해서 아래 사항을 출력해주세요\n
+    1. "웹접근성지침" 항목으로 차이점과 관련된 {relevant_text}를 이해하기 좋게 정리해서 출력, 
+    2. "수정사항"항목으로 수정된 코드를 기준으로 원본코드와 차이를 출력하고
+    3. "수정사유"라는 항목으로수정전후 차이점을 {relevant_text}를 참조하여 설명해주세요
     """
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
