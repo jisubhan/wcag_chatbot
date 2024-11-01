@@ -20,6 +20,62 @@
 
 <br>
 
+## 설치 방법
+필수 조건
+- Python 3.7 이상
+- OpenAI API 키
+- Git (선택 사항)
+설치 단계
+리포지토리 클론
+
+bash
+코드 복사
+git clone https://github.com/jisubhan/wcag_chatbot.git
+cd your-repo-name
+가상 환경 생성 (선택 사항)
+<br>
+bash
+코드 복사
+python -m venv venv
+source venv/bin/activate  # Windows의 경우 'venv\Scripts\activate'
+필요한 패키지 설치
+<br>
+bash
+코드 복사
+pip install -r requirements.txt
+환경 변수 설정
+<br>
+프로젝트 루트 디렉터리에 .env 파일을 생성하고, OpenAI API 키를 추가합니다.
+<br>
+env
+코드 복사
+OPENAI_API_KEY="open_api_key"
+웹 접근성 지침 요약 파일 준비
+
+data/wcag.txt 파일이 있는지 확인하세요. 없을 경우, 한국형 웹 콘텐츠 접근성 지침의 주요 내용을 요약하여 해당 위치에 저장합니다.
+
+사용 방법
+애플리케이션 실행
+
+bash
+코드 복사
+streamlit run chatbot.py
+웹 브라우저에서 접속
+
+터미널에 표시된 로컬 URL을 웹 브라우저에 입력하여 애플리케이션에 접속합니다.
+
+코드 입력 및 수정
+
+코드 편집기에 수정하고자 하는 HTML 코드를 입력합니다.
+아래의 '코드 수정 요청' 입력란에 원하는 수정 요청을 입력합니다.
+예: "웹 접근성 문제를 해결해줘"
+'✨ 코드 생성/수정' 버튼을 클릭합니다.
+수정된 코드 확인 및 미리보기
+
+수정된 코드와 차이점 섹션에서 원본 코드와 수정된 코드의 차이점을 시각적으로 비교합니다.
+수정된 코드 웹에서 확인하기 섹션에서 수정된 코드를 실제 웹 페이지로 미리볼 수 있습니다.
+수정 사항 설명 섹션에서 AI가 제공한 수정 내용을 확인합니다.
+
 ## ⏱️ 개발 기간 및 작업 관리
 
 ### 🖥️ 개발 기간
