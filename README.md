@@ -42,8 +42,6 @@
 WCAG_CHATBOT/
 ├── chatbot_gpt.py               # api 연동 모듈
 ├── streamlit_pdf.py             # 메인 실행 모듈
-├── generate_code.py             # 코드 생성을 위한 모듈
-├── generate_explanation.py      # 수정 사항 설명 생성을 위한 모듈
 ├── requirements.txt             # 필요한 패키지 목록
 ├── .env                         # api KEY
 ├── data/
