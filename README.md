@@ -25,15 +25,9 @@
 - Python 3.7 이상
 - OpenAI API 키
 - Git (선택 사항)
-설치 단계
 
-
-### 리포지토리 클론
-
-bash
-
-
-### 코드 복사
+## 설치 단계
+### 리포지토리 클론_코드 복사
 - git clone https://github.com/jisubhan/wcag_chatbot.git
 
 ### 가상 환경 생성
