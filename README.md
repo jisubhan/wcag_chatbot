@@ -33,40 +33,30 @@
 bash
 
 
-코드 복사
-git clone https://github.com/jisubhan/wcag_chatbot.git
-cd your-repo-name
-가상 환경 생성 (선택 사항)
-<br>
-bash
-코드 복사
-python -m venv venv
-source venv/bin/activate  # Windows의 경우 'venv\Scripts\activate'
-필요한 패키지 설치
-<br>
-bash
-코드 복사
-pip install -r requirements.txt
-환경 변수 설정
-<br>
-프로젝트 루트 디렉터리에 .env 파일을 생성하고, OpenAI API 키를 추가합니다.
-<br>
-env
-코드 복사
-OPENAI_API_KEY="open_api_key"
-웹 접근성 지침 요약 파일 준비
+### 코드 복사
+- git clone https://github.com/jisubhan/wcag_chatbot.git
 
-data/wcag.txt 파일이 있는지 확인하세요. 없을 경우, 한국형 웹 콘텐츠 접근성 지침의 주요 내용을 요약하여 해당 위치에 저장합니다.
+### 가상 환경 생성
 
-사용 방법
-애플리케이션 실행
 
-bash
-코드 복사
-streamlit run chatbot.py
-웹 브라우저에서 접속
+- cd /home/hanasb02/project/dev/wcag_chatbot
+- python -m venv venv
+- source venv/bin/activate  # Windows의 경우 'venv\Scripts\activate'
 
-터미널에 표시된 로컬 URL을 웹 브라우저에 입력하여 애플리케이션에 접속합니다.
+
+### 필요한 패키지 설치
+
+- pip install -r requirements.txt
+### 환경 변수 설정
+- 프로젝트 루트 디렉터리에 .env 파일을 생성하고, OpenAI API 키를 추가합니다.
+- ex) OPENAI_API_KEY="open_api_key"
+
+
+### 애플리케이션 실행
+- act conda activate test
+- streamlit run streamlit_pdf.py
+- 웹 브라우저에서 접속
+
 
 ## 코드 입력 및 수정
 
